@@ -6,6 +6,8 @@ See https://en.wikipedia.org/wiki/Pomodoro_Technique
 
 Synopsis: <trigger> [duration [break duration [long break duration [count]]]]"""
 
+#  Copyright (c) 2022 Manuel Schneider
+
 from albert import *
 import subprocess
 import threading
