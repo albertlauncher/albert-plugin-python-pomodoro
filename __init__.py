@@ -18,6 +18,7 @@ md_description = "Set up a Pomodoro timer"
 md_license = "MIT"
 md_url = "https://github.com/albertlauncher/albert-plugin-python-pomodoro"
 md_authors = "@manuelschneid3r"
+md_maintainers = ["@manuelschneid3r"]
 
 
 class PomodoroTimer:
