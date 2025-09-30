@@ -11,7 +11,7 @@ from pathlib import Path
 
 from albert import *
 
-md_iid = "3.0"
+md_iid = "4.0"
 md_version = "2.1"
 md_name = "Pomodoro"
 md_description = "Set up a Pomodoro timer"
@@ -85,7 +85,6 @@ class Plugin(PluginInstance, TriggerQueryHandler):
         PluginInstance.__init__(self)
         TriggerQueryHandler.__init__(self)
         self.pomodoro = PomodoroTimer()
-        self.iconUrls = [f"file:{Path(__file__).parent}/pomodoro.svg"]
 
     def defaultTrigger(self):
         return 'pomo '
@@ -105,7 +104,7 @@ class Plugin(PluginInstance, TriggerQueryHandler):
     def handleTriggerQuery(self, query):
         item = StandardItem(
             id=self.id(),
-            iconUrls=self.iconUrls,
+            iconFactory=lambda: makeImageIcon(Path(__file__).parent/"pomodoro.svg"),
         )
 
         if self.pomodoro.isActive():
