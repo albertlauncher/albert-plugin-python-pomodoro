@@ -104,7 +104,7 @@ class Plugin(PluginInstance, TriggerQueryHandler):
     def handleTriggerQuery(self, query):
         item = StandardItem(
             id=self.id(),
-            iconFactory=lambda: makeImageIcon(Path(__file__).parent/"pomodoro.svg"),
+            icon_factory=lambda: makeImageIcon(Path(__file__).parent/"pomodoro.svg"),
         )
 
         if self.pomodoro.isActive():
