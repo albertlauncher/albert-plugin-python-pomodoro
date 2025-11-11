@@ -11,7 +11,7 @@ from pathlib import Path
 
 from albert import *
 
-md_iid = "4.0"
+md_iid = "5.0"
 md_version = "2.1.1"
 md_name = "Pomodoro"
 md_description = "Set up a Pomodoro timer"
@@ -74,7 +74,7 @@ class PomodoroTimer:
         return self.timer is not None
 
 
-class Plugin(PluginInstance, TriggerQueryHandler):
+class Plugin(PluginInstance, GeneratorQueryHandler):
 
     default_pomodoro_duration = 25
     default_break_duration = 5
@@ -83,7 +83,7 @@ class Plugin(PluginInstance, TriggerQueryHandler):
 
     def __init__(self):
         PluginInstance.__init__(self)
-        TriggerQueryHandler.__init__(self)
+        GeneratorQueryHandler.__init__(self)
         self.pomodoro = PomodoroTimer()
 
     def defaultTrigger(self):
@@ -101,7 +101,7 @@ class Plugin(PluginInstance, TriggerQueryHandler):
             }
         ]
 
-    def handleTriggerQuery(self, query):
+    def items(self, ctx):
         item = StandardItem(
             id=self.id(),
             icon_factory=lambda: makeImageIcon(Path(__file__).parent/"pomodoro.svg"),
@@ -115,14 +115,12 @@ class Plugin(PluginInstance, TriggerQueryHandler):
             else:
                 whatsNext = "Long break" if self.pomodoro.remainingTillLongBreak == 1 else "Short break"
             item.subtext = "%s at %s" % (whatsNext, time.strftime("%X", time.localtime(self.pomodoro.endTime)))
-            query.add(item)
 
         else:
-            tokens = query.string.split()
+            tokens = ctx.query.split()
             if len(tokens) > 4 or not all([t.isdigit() for t in tokens]):
                 item.text = "Invalid parameters"
                 item.subtext = "Use %s" % self.synopsis
-                query.add(item)
             else:
                 p = int(tokens[0]) if len(tokens) > 0 else self.default_pomodoro_duration
                 b = int(tokens[1]) if len(tokens) > 1 else self.default_break_duration
@@ -133,4 +131,5 @@ class Plugin(PluginInstance, TriggerQueryHandler):
                 item.subtext = f"{p} min, break {b} min, long break {lb} min, count {c}"
                 item.actions = [Action("start", "Start",
                                        lambda _p=p, _b=b, _lb=lb, _c=c: self.pomodoro.start(_p, _b, _lb, _c))]
-                query.add(item)
+
+        yield [item]
