@@ -104,7 +104,7 @@ class Plugin(PluginInstance, GeneratorQueryHandler):
     def items(self, ctx):
         item = StandardItem(
             id=self.id(),
-            icon_factory=lambda: makeImageIcon(Path(__file__).parent/"pomodoro.svg"),
+            icon_factory=lambda: Icon.image(Path(__file__).parent/"pomodoro.svg"),
         )
 
         if self.pomodoro.isActive():
