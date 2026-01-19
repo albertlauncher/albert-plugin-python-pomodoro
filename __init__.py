@@ -12,7 +12,7 @@ from pathlib import Path
 from albert import *
 
 md_iid = "5.0"
-md_version = "2.1.1"
+md_version = "2.1.2"
 md_name = "Pomodoro"
 md_description = "Set up a Pomodoro timer"
 md_license = "MIT"
